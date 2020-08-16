@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title> stone_scissors_paper</title>
+</head>
+
+<body>
+     <body style="background-color:#ffc0cb;">
+     <p>
+     		package stone_scissors_paper;
+     		<br>
+
+/**
+<br>
+ *
+ <br>
+ * @author Barbara Angelopoulou
+ <br> 
+ */
+ <br>
+public class PetraCalidiXarti {
+<br>
+    public static void main(String[] args) {
+    <br>
+       int i,e1,e2,s1,s2;
+       <br>
+       String n1,n2;
+       <br>
+
+System.out.println ("User No1 give your name:");
+<br>
+
+n1= scannerUserInput.getString();
+<br>
+System.out.println("User No2 give your name:");
+<br>
+n2=scannerUserInput.getString();
+<br>
+s1=0;
+<br>
+s2=0;
+<br>
+System.out.println ("welcome, ready for 3 round ?");
+<br>
+
+System.out.println(" ************ LETS START ! ************ ");
+
+<br>
+i=1;
+<br>
+do
+<br>
+{
+<br>
+ System.out.println("ROUND No"+i);
+ <br>
+ // χρηστης 1
+ <br>
+
+ System.out.println(n1+" give your choise:");
+<br>
+ System.out.println("press 1,2 or 3 \n 1.stone \n 2.scissor \n 3.paper \n 4.end game ");
+ <br>
+ //με την do-while κανουμε τον ελγχο εγκυροτητας
+ <br>
+ do
+ <br>
+ {
+ <br>
+   e1=scannerUserInput.getInteger();
+   <br>
+ }
+ <br>
+ while (e1!=1 && e1!=2 && e1!=3 && e1!=4);
+ <br>
+
+
+
+ // χρηστης 2
+<br>
+ System.out.println(n2+" give your choise:");
+<br>
+ System.out.println("press 1,2 or 3 \n 1.stone \n 2.scissor \n 3.paper \n 4.end game ");
+ <br>
+ do
+ <br>
+ {
+ <br>
+   e2=scannerUserInput.getInteger();
+   <br>
+ }
+ <br>
+ while(e2!=1 && e2!=2 && e2!=3 && e2!=4);
+<br>
+ //εύρεση νικητή
+ <br>
+ if (e1 == e2)
+ <br>
+ //ισοποαλια θα ειναι καθε φορα που τα 2 ειναι ιδια
+ <br>
+ {
+ <br>
+  System.out.println("draw \n");
+  <br>
+   s1++;
+   <br>
+   s2++;
+   <br>
+ }
+ <br>
+ else if(e1==1)
+ <br>
+ {
+ <br>
+  if(e2== 2)
+  <br>
+   {
+   <br>
+ 	    System.out.println("round "+i+" winner is "+n1);
+ 	    <br>
+        s1++;
+        <br>
+
+   }
+   <br>
+   else if(e2 == 3)
+   <br>
+   {
+   <br>
+        System.out.println("round "+i+" winner is "+n2);
+        <br>
+        s2++;
+        <br>
+   }
+   <br>
+ }
+ <br>
+ else if(e1==2)
+ <br>
+ {
+ <br>
+  if(e2== 1)
+  <br>
+   {
+   <br>
+ 	System.out.println("round "+i+" winner is "+n2);
+ 	<br>
+        s2++;
+        <br>
+   }
+   <br>
+   else if(e2 == 3)
+   <br>
+   {
+   <br>
+        System.out.println("round "+i+" winner is "+n1);
+        <br>
+        s1++;
+        <br>
+   }
+   <br>
+ }
+ <br>
+ else if(e1==3)
+ <br>
+ {
+ <br>
+  if(e2== 1)
+  <br>
+   {
+   <br>
+ 	System.out.println("round "+i+" winner is "+n1);
+ 	<br>
+        s1++;
+        <br>
+   }
+   <br>
+   else if(e2 == 2)
+   <br>
+   {
+   <br>
+        System.out.println("round "+i+" winner is "+n2);
+        <br>
+        s2++;
+        <br>
+   }
+   <br>
+ }
+ <br>
+ i++;
+ <br>
+}
+<br>
+while((e1!=4 && e2!=4 ) && (i<=3));
+<br>
+
+System.out.println(n1+"your score is: "+s1+" points");
+<br>
+System.out.println(n2+"your score is: "+s2+" points");
+<br>
+System.out.println(s1+"<--->"+s2);
+<br>
+
+//μεσα απο μια if θα βρεθει ο νικητης
+<br>
+
+if (s1>s2)
+<br>
+{
+<br>
+  System.out.println("** winnner is "+n1+" **");
+  <br>
+}
+<br>
+else if (s1<s2)
+<br>
+{
+<br>
+  System.out.println("** winnner is "+n2+"**");
+  <br>
+}
+<br>
+else if (s1==s2)
+<br>
+{
+<br>
+  System.out.println("** game is draw **");
+  <br>
+}
+<br>
+    }
+    <br>
+    
+}
+
+     </p>
+</body>
+
+</html>
