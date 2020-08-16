@@ -1,0 +1,293 @@
+<html>
+<title>Tennis Game - Αγγελοπούλου Βαρβάρα</title>
+<style>
+
+
+body {
+  font-family:italic, Georgia, Helvetica, sans-serif;
+  margin: 0;
+  background-repeat:no-repeat;
+  background-image:url('167767.jpg'); 
+  background-color:black;
+    }
+#content p {
+  text-align: center;
+  color: #9400D3;
+}
+.navbar {
+  overflow: hidden;
+  background-color: #9400D3; 
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.subnav .subnavbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color:black;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.subnav {
+  float: left;
+  overflow: hidden;
+}
+
+
+
+.navbar a:hover, .subnav:hover .subnavbtn {
+  background-color:#DDA0DD;
+}
+
+.subnav-content {
+  display: none;
+  position: absolute;
+  left: 0;
+  background-color: #DDA0DD;
+  width: 100%;
+  z-index: 1;
+}
+
+.subnav-content a {
+  float: left;
+  color:black;
+  text-decoration: none;
+}
+
+.subnav-content a:hover {
+  background-color: Violet;
+  color: black;
+}
+
+.subnav:hover .subnav-content {
+  display: block;
+}
+.subnav-right {
+  float: right;
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="../../../home.html">Αρχική</a>
+  <div class="subnav">
+    <a href="../../../about/about.html">Ποιά είμαι</a>
+   </div> 
+  <div class="subnav">
+    <button class="subnavbtn">Projects<i class="fa fa-caret-down"></i></button>
+    <div class="subnav-content">
+      <a href="../games.html">Παιχνίδια</a>
+      <a href="../../../projects/websites/website.html">Ιστοσελίδες</a>
+      <a href="../../../projects/Codes/codes.html">Κώδικας</a>
+    </div>
+  </div> 
+   <div class="subnav">
+   <a href="../../../bio/bio.html">Βιογραφικό</a>
+   </div> 
+  <div class="subnav">
+    <button class="subnavbtn">Γκαλερή <i class="fa fa-caret-down"></i></button>
+    <div class="subnav-content">
+      <a href="../../../gallery/photoshop/photoshop.html">Photoshop</a>
+      <a href="../../../gallery/photo/photo.html">Φωτογραφίες</a>
+      <a href="../../../gallery/videos/videos.html">Βίντεο</a>
+      
+    </div>
+  </div>
+ <div class="subnav">
+  <a href="../../../contact/contact.html">Επικοινωνία</a>
+</div>
+ <div class="subnav-right">
+    <a href="TennisGame.html">eng</a>
+</div>
+</div>
+<td>.</td>
+<center>
+<canvas id="gameCanvas"  width="800" height="600" style="border:1px solid #9400D3;"> 
+</canvas>
+<script>
+var canvas;
+var canvasContext;
+var ballX = 50;
+var ballY = 50;
+var ballSpeedX = 10;
+var ballSpeedY = 4;
+
+var player1Score = 0;
+var player2Score = 0;
+const WINNING_SCORE = 3;
+
+var showingWinScreen = false;
+
+var paddle1Y = 250;
+var paddle2Y = 250;
+const PADDLE_THICKNESS = 10;
+const PADDLE_HEIGHT = 100;
+
+function calculateMousePos(evt) {
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	return {
+		x:mouseX,
+		y:mouseY
+	};
+}
+
+function handleMouseClick(evt) {
+	if(showingWinScreen) {
+		player1Score = 0;
+		player2Score = 0;
+		showingWinScreen = false;
+	}
+}
+
+window.onload = function() {
+	canvas = document.getElementById('gameCanvas');
+	canvasContext = canvas.getContext('2d');
+
+	var framesPerSecond = 30;
+	setInterval(function() {
+			moveEverything();
+			drawEverything();	
+		}, 1000/framesPerSecond);
+
+	canvas.addEventListener('mousedown', handleMouseClick);
+
+	canvas.addEventListener('mousemove',
+		function(evt) {
+			var mousePos = calculateMousePos(evt);
+			paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
+		});
+}
+
+function ballReset() {
+	if(player1Score >= WINNING_SCORE ||
+		player2Score >= WINNING_SCORE) {
+
+		showingWinScreen = true;
+
+	}
+
+	ballSpeedX = -ballSpeedX;
+	ballX = canvas.width/2;
+	ballY = canvas.height/2;
+}
+
+function computerMovement() {
+	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
+	if(paddle2YCenter < ballY - 35) {
+		paddle2Y = paddle2Y + 6;
+	} else if(paddle2YCenter > ballY + 35) {
+		paddle2Y = paddle2Y - 6;
+	}
+}
+
+function moveEverything() {
+	if(showingWinScreen) {
+		return;
+	}
+
+	computerMovement();
+
+	ballX = ballX + ballSpeedX;
+	ballY = ballY + ballSpeedY;
+	
+	if(ballX < 0) {
+		if(ballY > paddle1Y &&
+			ballY < paddle1Y+PADDLE_HEIGHT) {
+			ballSpeedX = -ballSpeedX;
+
+			var deltaY = ballY
+					-(paddle1Y+PADDLE_HEIGHT/2);
+			ballSpeedY = deltaY * 0.35;
+		} else {
+			player2Score++; // must be BEFORE ballReset()
+			ballReset();
+		}
+	}
+	if(ballX > canvas.width) {
+		if(ballY > paddle2Y &&
+			ballY < paddle2Y+PADDLE_HEIGHT) {
+			ballSpeedX = -ballSpeedX;
+
+			var deltaY = ballY
+					-(paddle2Y+PADDLE_HEIGHT/2);
+			ballSpeedY = deltaY * 0.35;
+		} else {
+			player1Score++; // must be BEFORE ballReset()
+			ballReset();	
+		}
+	}
+	if(ballY < 0) {
+		ballSpeedY = -ballSpeedY;
+	}
+	if(ballY > canvas.height) {
+		ballSpeedY = -ballSpeedY;
+	}
+}
+
+function drawNet() {
+	for(var i=0;i<canvas.height;i+=40) {
+		colorRect(canvas.width/2-1,i,2,20,'purple');
+	}
+}
+
+function drawEverything() {
+	// next line blanks out the screen with black
+	colorRect(0,0,canvas.width,canvas.height,'black');
+
+	if(showingWinScreen) {
+		canvasContext.fillStyle = 'purple';
+
+		if(player1Score >= WINNING_SCORE) {
+			canvasContext.fillText("κέρδισες", 350, 200);
+		} else if(player2Score >= WINNING_SCORE) {
+			canvasContext.fillText("κέρδισε ο υπολογιστής", 350, 200);
+		}
+
+		canvasContext.fillText("πάτα για να ξαναπαίξεις" , 350, 500);
+		return;
+	}
+
+	drawNet();
+
+	// this is left player paddle
+	colorRect (0,paddle1Y,PADDLE_THICKNESS ,PADDLE_HEIGHT ,'purple');
+				
+	// this is Right computer paddle
+	colorRect (canvas.width-PADDLE_THICKNESS ,paddle2Y,PADDLE_THICKNESS ,PADDLE_HEIGHT ,'purple');
+
+	// in this line draw the ball		
+	colorCircle(ballX, ballY, 10, 'pink');
+
+	canvasContext.fillText(player1Score, 100, 100);
+	canvasContext.fillText(player2Score, canvas.width-100, 100);
+}
+
+function colorCircle(centerX, centerY, radius, drawColor) {
+	canvasContext.fillStyle = drawColor;
+	canvasContext.beginPath();
+	canvasContext.arc(centerX, centerY, radius, 0,Math.PI*2,true);
+	canvasContext.fill();
+}
+
+function colorRect(leftX,topY, width,height, drawColor) {
+	canvasContext.fillStyle = drawColor;
+	canvasContext.fillRect(leftX,topY, width,height);
+}
+
+</script>
+</center>
+</html>
