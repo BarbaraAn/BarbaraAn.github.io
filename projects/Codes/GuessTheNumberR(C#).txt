@@ -1,0 +1,78 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class RandomPlay : MonoBehaviour
+{
+    private int rndNUM;
+    private int yourNUM;
+    private int tries;
+    private int scoreInt;
+    public Text txtrnd;
+    public Text Txttries;
+    public Text txtyour;
+    public Text msg;
+    public Text txtscore;
+    public Button btn;
+
+
+    void Start()
+    {
+
+        scoreInt = 0;
+        txtscore.text = "Score: " + scoreInt.ToString();
+        tries = 8;
+
+        // Here selected randomly one number  for pc
+        rndNUM = Random.Range(0, 9);
+
+        // Here writing the starter messeges in game 
+        txtrnd.text = "CPU Number: " + rndNUM.ToString();
+        txtyour.text = "Your Number: ";
+        Txttries.text = "Tries Left " + tries.ToString();
+        msg.text = " ";
+
+
+    }
+
+    // Update is called once per frame
+    public void Calculate()
+    {
+
+        Txttries.text = "Tries Left " + tries.ToString();
+        //Here Checked the players tries
+        if (tries > 0)
+        {
+
+            txtrnd.text = "CPU Number: " + rndNUM.ToString();
+            txtyour.text = "Your Number: " + yourNUM.ToString();
+            // Here selected radomly one number for player with each button click  
+            yourNUM = Random.Range(0, 9);
+
+            if (yourNUM == rndNUM)
+            {
+                scoreInt++;
+                tries += 2;
+                msg.text = "You found it ! ";
+                txtscore.text = "Score: " + scoreInt.ToString();
+                Txttries.text = "Tries Left " + tries.ToString();
+                // Here selected radomly one number for pc
+                rndNUM = Random.Range(0, 9);
+                txtrnd.text = "CPU Number: " + rndNUM.ToString();
+            }
+            else
+            {
+                tries -= 1;
+                msg.text = "try again";
+            }
+        }
+        else
+        {
+            //Disable the button function
+            btn.interactable = false;
+        }
+    }
+}
+
